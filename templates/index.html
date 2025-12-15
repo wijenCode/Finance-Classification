@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klasifikasi Kesehatan Finansial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="gradient-bg shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <i class="fas fa-wallet text-white text-2xl mr-3"></i>
+                    <span class="text-white text-xl font-bold">Klasifikasi Kesehatan Finansial</span>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="/" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium transition">
+                        <i class="fas fa-home mr-2"></i>Beranda
+                    </a>
+                    <a href="/about" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium transition">
+                        <i class="fas fa-info-circle mr-2"></i>Tentang Dataset
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="gradient-bg text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center fade-in">
+                <h1 class="text-4xl font-extrabold sm:text-5xl md:text-6xl">
+                    Sistem Klasifikasi Kesehatan Finansial
+                </h1>
+                <p class="mt-3 max-w-md mx-auto text-base sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+                    Analisis kondisi keuangan Anda dengan teknologi Machine Learning menggunakan 3 model berbeda
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Model Selection -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6 card-hover fade-in">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-robot text-purple-600 mr-2"></i>Pilih Model Klasifikasi
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <label class="relative cursor-pointer">
+                    <input type="radio" name="model" value="boosting" checked class="peer sr-only">
+                    <div class="p-4 border-2 border-gray-300 rounded-lg peer-checked:border-purple-600 peer-checked:bg-purple-50 transition hover:shadow-md">
+                        <div class="flex items-center">
+                            <i class="fas fa-rocket text-purple-600 text-2xl mr-3"></i>
+                            <div>
+                                <p class="font-bold text-gray-800">Boosting</p>
+                                <p class="text-sm text-gray-600">XGBoost</p>
+                            </div>
+                        </div>
+                    </div>
+                </label>
+                <label class="relative cursor-pointer">
+                    <input type="radio" name="model" value="bagging" class="peer sr-only">
+                    <div class="p-4 border-2 border-gray-300 rounded-lg peer-checked:border-purple-600 peer-checked:bg-purple-50 transition hover:shadow-md">
+                        <div class="flex items-center">
+                            <i class="fas fa-tree text-green-600 text-2xl mr-3"></i>
+                            <div>
+                                <p class="font-bold text-gray-800">Bagging</p>
+                                <p class="text-sm text-gray-600">Random Forest</p>
+                            </div>
+                        </div>
+                    </div>
+                </label>
+                <label class="relative cursor-pointer">
+                    <input type="radio" name="model" value="deep_learning" class="peer sr-only">
+                    <div class="p-4 border-2 border-gray-300 rounded-lg peer-checked:border-purple-600 peer-checked:bg-purple-50 transition hover:shadow-md">
+                        <div class="flex items-center">
+                            <i class="fas fa-brain text-blue-600 text-2xl mr-3"></i>
+                            <div>
+                                <p class="font-bold text-gray-800">Deep Learning</p>
+                                <p class="text-sm text-gray-600">Neural Network</p>
+                            </div>
+                        </div>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <form id="financeForm" class="space-y-6">
+            <!-- Section 1: Pemasukan -->
+            <div class="bg-white rounded-lg shadow-md p-6 card-hover fade-in">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-money-bill-wave text-green-600 mr-2"></i>Pemasukan
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Gaji</label>
+                        <input type="number" name="Gaji" value="5000000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tabungan Lama</label>
+                        <input type="number" name="Tabungan Lama" value="1000000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Investasi</label>
+                        <input type="number" name="Investasi" value="500000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Pemasukan Lainnya</label>
+                        <input type="number" name="Pemasukan Lainnya" value="500000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tipe Pengeluaran</label>
+                        <select name="Tipe" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                            <option value="normal">Normal</option>
+                            <option value="hemat">Hemat</option>
+                            <option value="boros">Boros</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Pengeluaran Esensial -->
+            <div class="bg-white rounded-lg shadow-md p-6 card-hover fade-in">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-home text-blue-600 mr-2"></i>Pengeluaran Esensial
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Bahan Pokok</label>
+                        <input type="number" name="Bahan Pokok" value="1000000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Protein & Gizi Tambahan</label>
+                        <input type="number" name="Protein & Gizi Tambahan" value="800000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tempat Tinggal</label>
+                        <input type="number" name="Tempat Tinggal" value="1500000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Sandang</label>
+                        <input type="number" name="Sandang" value="300000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Pengeluaran Non-Esensial -->
+            <div class="bg-white rounded-lg shadow-md p-6 card-hover fade-in">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-shopping-bag text-orange-600 mr-2"></i>Pengeluaran Non-Esensial
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Konsumsi Praktis</label>
+                        <input type="number" name="Konsumsi Praktis" value="500000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Barang & Jasa Sekunder</label>
+                        <input type="number" name="Barang & Jasa Sekunder" value="400000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Pengeluaran Tidak Esensial</label>
+                        <input type="number" name="Pengeluaran Tidak Esensial" value="200000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Kewajiban & Tabungan -->
+            <div class="bg-white rounded-lg shadow-md p-6 card-hover fade-in">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-piggy-bank text-pink-600 mr-2"></i>Kewajiban & Tabungan
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Pajak</label>
+                        <input type="number" name="Pajak" value="250000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Asuransi</label>
+                        <input type="number" name="Asuransi" value="200000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Sosial & Budaya</label>
+                        <input type="number" name="Sosial & Budaya" value="150000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tabungan / Investasi</label>
+                        <input type="number" name="Tabungan / Investasi" value="1000000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-4 justify-center">
+                <button type="submit" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-3 rounded-lg font-bold hover:from-purple-700 hover:to-indigo-700 transition shadow-lg hover:shadow-xl">
+                    <i class="fas fa-chart-bar mr-2"></i>Analisis Kesehatan Finansial
+                </button>
+                <button type="button" id="resetButton" class="bg-gray-500 text-white px-8 py-3 rounded-lg font-bold hover:bg-gray-600 transition shadow-lg hover:shadow-xl">
+                    <i class="fas fa-redo mr-2"></i>Reset
+                </button>
+            </div>
+        </form>
+
+        <!-- Results Section -->
+        <div id="resultSection" class="hidden mt-8 bg-white rounded-lg shadow-md p-6 fade-in">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-chart-pie mr-2"></i>Hasil Klasifikasi
+            </h2>
+            <div id="resultContent"></div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg p-8 text-center">
+                <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mx-auto"></div>
+                <p class="mt-4 text-gray-700 font-medium">Menganalisis data keuangan...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-12 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2025 - Sistem Klasifikasi Kesehatan Finansial</p>
+            <p class="text-sm text-gray-400 mt-2">Dataset dari <a href="https://www.kaggle.com/datasets/harrymardika/indonesian-personal-finance" target="_blank" class="text-purple-400 hover:text-purple-300">Kaggle - Indonesian Personal Finance</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Default values
+        const defaultValues = {
+            'Gaji': 5000000,
+            'Tabungan Lama': 1000000,
+            'Investasi': 500000,
+            'Pemasukan Lainnya': 500000,
+            'Tipe': 'normal',
+            'Bahan Pokok': 1000000,
+            'Protein & Gizi Tambahan': 800000,
+            'Tempat Tinggal': 1500000,
+            'Sandang': 300000,
+            'Konsumsi Praktis': 500000,
+            'Barang & Jasa Sekunder': 400000,
+            'Pengeluaran Tidak Esensial': 200000,
+            'Pajak': 250000,
+            'Asuransi': 200000,
+            'Sosial & Budaya': 150000,
+            'Tabungan / Investasi': 1000000
+        };
+
+        // Reset button handler
+        document.getElementById('resetButton').addEventListener('click', function() {
+            const form = document.getElementById('financeForm');
+            
+            // Reset all input fields to default values
+            Object.keys(defaultValues).forEach(fieldName => {
+                const input = form.querySelector(`[name="${fieldName}"]`);
+                if (input) {
+                    input.value = defaultValues[fieldName];
+                }
+            });
+            
+            // Reset model selection to boosting
+            const boostingRadio = form.querySelector('input[name="model"][value="boosting"]');
+            if (boostingRadio) {
+                boostingRadio.checked = true;
+            }
+            
+            // Hide result section
+            document.getElementById('resultSection').classList.add('hidden');
+        });
+
+        document.getElementById('financeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const selectedModel = document.querySelector('input[name="model"]:checked').value;
+            
+            // Build data array in correct order
+            const fields = [
+                'Gaji', 'Tabungan Lama', 'Investasi', 'Pemasukan Lainnya', 'Tipe',
+                'Bahan Pokok', 'Protein & Gizi Tambahan', 'Tempat Tinggal', 'Sandang',
+                'Konsumsi Praktis', 'Barang & Jasa Sekunder', 'Pengeluaran Tidak Esensial',
+                'Pajak', 'Asuransi', 'Sosial & Budaya', 'Tabungan / Investasi'
+            ];
+            
+            const data = fields.map(field => {
+                const value = formData.get(field);
+                return field === 'Tipe' ? value : parseFloat(value);
+            });
+            
+            const payload = {
+                data: [data],
+                model: selectedModel
+            };
+            
+            // Show loading spinner
+            document.getElementById('loadingSpinner').classList.remove('hidden');
+            
+            try {
+                const response = await fetch('/finance_classification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await response.json();
+                
+                // Hide loading spinner
+                document.getElementById('loadingSpinner').classList.add('hidden');
+                
+                if (response.ok) {
+                    displayResult(result);
+                } else {
+                    showError(result.error || 'Terjadi kesalahan');
+                }
+            } catch (error) {
+                document.getElementById('loadingSpinner').classList.add('hidden');
+                showError('Tidak dapat terhubung ke server. Pastikan API berjalan di localhost:8080');
+            }
+        });
+        
+        function displayResult(result) {
+            const data = result['0'];
+            const cluster = data.cluster;
+            const label = data.cluster_label;
+            const model = data.model_used;
+            
+            let colorClass, emoji, colorDesc, interpretation;
+            
+            if (cluster === 0) {
+                colorClass = 'text-red-600 bg-red-50 border-red-300';
+                emoji = '⚠️';
+                colorDesc = 'MERAH';
+                interpretation = `
+                    <p class="text-gray-700 leading-relaxed">
+                        Kondisi keuangan Anda memerlukan perhatian khusus. 
+                        Disarankan untuk mengurangi pengeluaran tidak esensial dan meningkatkan tabungan.
+                    </p>
+                `;
+            } else if (cluster === 1) {
+                colorClass = 'text-yellow-600 bg-yellow-50 border-yellow-300';
+                emoji = '⚡';
+                colorDesc = 'KUNING';
+                interpretation = `
+                    <p class="text-gray-700 leading-relaxed">
+                        Kondisi keuangan Anda cukup stabil. 
+                        Pertahankan pola keuangan saat ini dan tingkatkan investasi untuk mencapai kondisi lebih baik.
+                    </p>
+                `;
+            } else {
+                colorClass = 'text-green-600 bg-green-50 border-green-300';
+                emoji = '✅';
+                colorDesc = 'HIJAU';
+                interpretation = `
+                    <p class="text-gray-700 leading-relaxed">
+                        Kondisi keuangan Anda sangat baik! 
+                        Terus pertahankan manajemen keuangan yang sehat dan optimalkan investasi Anda.
+                    </p>
+                `;
+            }
+            
+            const resultHTML = `
+                <div class="border-2 ${colorClass} rounded-lg p-6">
+                    <div class="text-center mb-6">
+                        <span class="text-6xl">${emoji}</span>
+                        <h3 class="text-3xl font-bold mt-4">${label}</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="text-center p-4 bg-white rounded-lg">
+                            <p class="text-sm text-gray-600">Model</p>
+                            <p class="text-xl font-bold">${model}</p>
+                        </div>
+                        <div class="text-center p-4 bg-white rounded-lg">
+                            <p class="text-sm text-gray-600">Cluster</p>
+                            <p class="text-xl font-bold">${cluster}</p>
+                        </div>
+                        <div class="text-center p-4 bg-white rounded-lg">
+                            <p class="text-sm text-gray-600">Status</p>
+                            <p class="text-xl font-bold">${colorDesc}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4">
+                        <h4 class="font-bold text-lg mb-3"><i class="fas fa-lightbulb mr-2"></i>Interpretasi:</h4>
+                        ${interpretation}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('resultContent').innerHTML = resultHTML;
+            document.getElementById('resultSection').classList.remove('hidden');
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function showError(message) {
+            const errorHTML = `
+                <div class="border-2 border-red-300 bg-red-50 text-red-700 rounded-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-exclamation-circle text-3xl mr-3"></i>
+                        <h3 class="text-xl font-bold">Error</h3>
+                    </div>
+                    <p>${message}</p>
+                </div>
+            `;
+            
+            document.getElementById('resultContent').innerHTML = errorHTML;
+            document.getElementById('resultSection').classList.remove('hidden');
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>

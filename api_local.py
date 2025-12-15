@@ -1,6 +1,6 @@
 # Using flask to make an api
 # import necessary libraries and functions
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import time
 import logging
 from datetime import datetime
@@ -63,10 +63,20 @@ def getLabel(x):
 # creating a Flask app
 app = Flask(__name__)
   
+# Web routes for HTML pages
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+# API routes
 # on the terminal type: curl http://127.0.0.1:5000/
 # returns hello world when we use GET.
 # returns the data that we send when we use POST.
-@app.route('/', methods = ['GET', 'POST'])
+@app.route('/api', methods = ['GET', 'POST'])
 def home():
     if(request.method == 'GET'):
   
