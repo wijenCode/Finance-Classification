@@ -32,10 +32,12 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center">
-                    <i class="fas fa-chart-line text-white text-2xl mr-3"></i>
-                    <span class="text-white text-xl font-bold">Klasifikasi Kesehatan Finansial</span>
+                    <i class="fas fa-chart-line text-white text-xl sm:text-2xl mr-2 sm:mr-3"></i>
+                    <span class="text-white text-base sm:text-xl font-bold">Klasifikasi Kesehatan Finansial</span>
                 </div>
-                <div class="flex space-x-4">
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-4">
                     <a href="/" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium transition">
                         <i class="fas fa-home mr-2"></i>Beranda
                     </a>
@@ -43,6 +45,21 @@
                         <i class="fas fa-info-circle mr-2"></i>Tentang Dataset
                     </a>
                 </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuButton" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden pb-4">
+                <a href="/" class="block text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium transition mb-2">
+                    <i class="fas fa-home mr-2"></i>Beranda
+                </a>
+                <a href="/about" class="block text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium transition">
+                    <i class="fas fa-info-circle mr-2"></i>Tentang Dataset
+                </a>
             </div>
         </div>
     </nav>
@@ -231,19 +248,19 @@
                     </div>
                 </div>
 
-                <!-- Deep Learning -->
+                <!-- Voting Classifier -->
                 <div class="border-l-4 border-blue-500 bg-blue-50 p-6 rounded-r-lg">
                     <div class="flex items-center mb-3">
-                        <i class="fas fa-brain text-blue-600 text-3xl mr-3"></i>
-                        <h3 class="text-2xl font-bold text-gray-800">Deep Learning (Neural Network)</h3>
+                        <i class="fas fa-vote-yea text-blue-600 text-3xl mr-3"></i>
+                        <h3 class="text-2xl font-bold text-gray-800">Voting Classifier (LogisticRegression + SVC + XGBoost)</h3>
                     </div>
                     <p class="text-gray-700 leading-relaxed">
-                        Model neural network yang mampu mempelajari pola kompleks dan non-linear dalam data. 
-                        Sangat powerful untuk menangkap hubungan tersembunyi antar fitur finansial.
+                        Teknik ensemble yang menggabungkan prediksi dari Boosting dan Bagging melalui voting mayoritas.
+                        Meningkatkan akurasi dan stabilitas prediksi dengan memanfaatkan kekuatan kedua model.
                     </p>
                     <div class="mt-3 flex flex-wrap gap-2">
-                        <span class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">Pattern Recognition</span>
-                        <span class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">Non-linear Relations</span>
+                        <span class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">Kombinasi Model</span>
+                        <span class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">Voting Mayoritas</span>
                     </div>
                 </div>
             </div>
@@ -315,5 +332,23 @@
             <p class="text-sm text-gray-400 mt-2">Dataset dari <a href="https://www.kaggle.com/datasets/harrymardika/indonesian-personal-finance" target="_blank" class="text-purple-400 hover:text-purple-300">Kaggle - Indonesian Personal Finance</a></p>
         </div>
     </footer>
+    
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuIcon = this.querySelector('i');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+    </script>
 </body>
 </html>

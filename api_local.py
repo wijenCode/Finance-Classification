@@ -8,42 +8,63 @@ import joblib
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import VotingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+import xgboost as xgb
 import pandas as pd
 import numpy as np
 import os
 import json
+import io
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 # Load all models
 model_boosting = dir_path+'/model/finance_boosting_model.sav'
 model_bagging = dir_path+'/model/finance_bagging_model.sav'
-model_deep_learning = dir_path+'/model/finance_deep_learning_model.sav'
+model_voting = dir_path+'/model/finance_voting_model.sav'
 
 # Dictionary to store all classifiers
 classifiers = {}
+boosting_model = None
+bagging_model = None
+voting_model = None
 
 # Load models (with error handling for models that don't exist yet)
 try:
-    classifiers['boosting'] = joblib.load(model_boosting)
+    boosting_model = joblib.load(model_boosting)
+    classifiers['boosting'] = boosting_model
     print("✓ Boosting model loaded")
 except FileNotFoundError:
     print("⚠ Boosting model not found")
     classifiers['boosting'] = None
+except Exception as e:
+    print(f"⚠ Error loading Boosting model: {str(e)}")
+    classifiers['boosting'] = None
 
 try:
-    classifiers['bagging'] = joblib.load(model_bagging)
+    bagging_model = joblib.load(model_bagging)
+    classifiers['bagging'] = bagging_model
     print("✓ Bagging model loaded")
 except FileNotFoundError:
     print("⚠ Bagging model not found")
     classifiers['bagging'] = None
+except Exception as e:
+    print(f"⚠ Error loading Bagging model: {str(e)}")
+    classifiers['bagging'] = None
 
+# Load Voting Classifier from file
 try:
-    classifiers['deep_learning'] = joblib.load(model_deep_learning)
-    print("✓ Deep Learning model loaded")
+    voting_model = joblib.load(model_voting)
+    classifiers['voting'] = voting_model
+    print("✓ Voting model loaded")
 except FileNotFoundError:
-    print("⚠ Deep Learning model not found")
-    classifiers['deep_learning'] = None
+    print("⚠ Voting model not found")
+    classifiers['voting'] = None
+except Exception as e:
+    print(f"⚠ Error loading Voting model: {str(e)}")
+    classifiers['voting'] = None
 
 scaler_finance = dir_path+'/model/scaler_finance.sav'
 scaler_finance = joblib.load(scaler_finance)
@@ -59,6 +80,32 @@ def getLabel(x):
     else:
         res='Unknown'
     return res
+
+def reorder_features(df):
+    """
+    Reorder features according to feature selection order.
+    Original order (user input) -> Feature selection order (model training)
+    """
+    # Urutan yang benar sesuai seleksi fitur
+    correct_order = [
+        'Tabungan / Investasi',
+        'Pengeluaran Tidak Esensial',
+        'Tempat Tinggal',
+        'Tabungan Lama',
+        'Investasi',
+        'Pemasukan Lainnya',
+        'Tipe',
+        'Barang & Jasa Sekunder',
+        'Sosial & Budaya',
+        'Pajak',
+        'Konsumsi Praktis',
+        'Protein & Gizi Tambahan',
+        'Asuransi',
+        'Bahan Pokok',
+        'Gaji',
+        'Sandang'
+    ]
+    return df[correct_order]
 
 # creating a Flask app
 app = Flask(__name__)
@@ -91,6 +138,92 @@ def home():
 @app.route('/home/<int:num>', methods = ['GET'])
 def disp(num):
     return jsonify({'data': num**2})
+
+
+@app.route('/upload_csv', methods=['POST'])
+def upload_csv():
+    """Handle CSV file upload for batch prediction"""
+    try:
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file uploaded'}), 400
+        
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({'error': 'No file selected'}), 400
+        
+        if not file.filename.endswith('.csv'):
+            return jsonify({'error': 'File must be CSV format'}), 400
+        
+        # Get selected model
+        selected_model = request.form.get('model', 'boosting').lower()
+        
+        # Validate model selection
+        if selected_model not in classifiers:
+            return jsonify({'error': f'Invalid model: {selected_model}'}), 400
+        
+        if classifiers.get(selected_model) is None:
+            available_models = [k for k, v in classifiers.items() if v is not None]
+            return jsonify({
+                'error': f'Model {selected_model.upper()} is not available.',
+                'available_models': available_models
+            }), 400
+        
+        # Read CSV file
+        df = pd.read_csv(io.StringIO(file.stream.read().decode('utf-8')))
+        
+        # Expected columns
+        expected_columns = ['Gaji', 'Tabungan Lama', 'Investasi', 'Pemasukan Lainnya', 
+                           'Tipe', 'Bahan Pokok', 'Protein & Gizi Tambahan', 
+                           'Tempat Tinggal', 'Sandang', 'Konsumsi Praktis', 
+                           'Barang & Jasa Sekunder', 'Pengeluaran Tidak Esensial', 
+                           'Pajak', 'Asuransi', 'Sosial & Budaya', 'Tabungan / Investasi']
+        
+        # Validate columns
+        missing_cols = set(expected_columns) - set(df.columns)
+        if missing_cols:
+            return jsonify({'error': f'Missing columns: {list(missing_cols)}'}), 400
+        
+        # Select only needed columns in correct order
+        df = df[expected_columns]
+        
+        # Encode 'Tipe' column: hemat=0, normal=1, boros=2
+        tipe_mapping = {'hemat': 0, 'normal': 1, 'boros': 2}
+        df['Tipe'] = df['Tipe'].map(tipe_mapping)
+        
+        # Reorder features sesuai urutan seleksi fitur
+        df = reorder_features(df)
+        
+        print("DataFrame after reordering:")
+        print(df.head())
+        
+        # Scale features
+        features = scaler_finance.transform(df)
+        
+        # Predict
+        classifier = classifiers[selected_model]
+        predictions = classifier.predict(features)
+        
+        # Build results
+        results = []
+        for i, pred in enumerate(predictions):
+            cluster_label = getLabel(pred)
+            results.append({
+                'row': i + 1,
+                'cluster': int(pred),
+                'cluster_label': cluster_label
+            })
+        
+        return jsonify({
+            'total_rows': len(results),
+            'model_used': selected_model.upper(),
+            'predictions': results
+        })
+        
+    except Exception as e:
+        print(f"Error processing CSV: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
   
 
 @app.route('/finance_classification', methods=['POST'])
@@ -125,11 +258,17 @@ def process_json():
             print("Original DataFrame:")
             print(df)
             
-            # Encode 'Tipe' column: normal=0, hemat=1, boros=2
+            # Encode 'Tipe' column: hemat=0, normal=1, boros=2
             tipe_mapping = {'hemat': 0, 'normal': 1, 'boros': 2}
             df['Tipe'] = df['Tipe'].map(tipe_mapping)
             
             print("After encoding:")
+            print(df)
+            
+            # Reorder features sesuai urutan seleksi fitur
+            df = reorder_features(df)
+            
+            print("After reordering features:")
             print(df)
             
             features = scaler_finance.transform(df)

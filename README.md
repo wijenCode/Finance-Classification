@@ -5,7 +5,7 @@ Sistem Klasifikasi Kesehatan Finansial berbasis Machine Learning dengan antarmuk
 ## Fitur
 
 - 🎨 UI Modern dengan Tailwind CSS
-- 🤖 3 Model Machine Learning (Boosting, Bagging, Deep Learning)
+- 🤖 3 Model Machine Learning (Boosting, Bagging, Voting)
 - 📊 Analisis Real-time
 - 📱 Responsive Design
 - 📈 Visualisasi Hasil Klasifikasi
@@ -24,7 +24,7 @@ pip install flask scikit-learn pandas numpy joblib
 2. Pastikan model sudah tersedia di folder `model/`:
    - `finance_boosting_model.sav`
    - `finance_bagging_model.sav`
-   - `finance_deep_learning_model.sav`
+   - `finance_voting_model.sav`
    - `scaler_finance.sav`
 
 ## Cara Menjalankan
@@ -51,7 +51,7 @@ finance_classification/
 ├── model/
 │   ├── finance_boosting_model.sav
 │   ├── finance_bagging_model.sav
-│   ├── finance_deep_learning_model.sav
+│   ├── finance_voting_model.sav
 │   └── scaler_finance.sav
 └── dataset/
     ├── data_keuangan_labeled.csv

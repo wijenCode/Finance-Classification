@@ -32,10 +32,12 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center">
-                    <i class="fas fa-wallet text-white text-2xl mr-3"></i>
-                    <span class="text-white text-xl font-bold">Klasifikasi Kesehatan Finansial</span>
+                    <i class="fas fa-wallet text-white text-xl sm:text-2xl mr-2 sm:mr-3"></i>
+                    <span class="text-white text-base sm:text-xl font-bold">Klasifikasi Kesehatan Finansial</span>
                 </div>
-                <div class="flex space-x-4">
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-4">
                     <a href="/" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium transition">
                         <i class="fas fa-home mr-2"></i>Beranda
                     </a>
@@ -43,6 +45,21 @@
                         <i class="fas fa-info-circle mr-2"></i>Tentang Dataset
                     </a>
                 </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuButton" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden pb-4">
+                <a href="/" class="block text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium transition mb-2">
+                    <i class="fas fa-home mr-2"></i>Beranda
+                </a>
+                <a href="/about" class="block text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium transition">
+                    <i class="fas fa-info-circle mr-2"></i>Tentang Dataset
+                </a>
             </div>
         </div>
     </nav>
@@ -94,13 +111,13 @@
                     </div>
                 </label>
                 <label class="relative cursor-pointer">
-                    <input type="radio" name="model" value="deep_learning" class="peer sr-only">
+                    <input type="radio" name="model" value="voting" class="peer sr-only">
                     <div class="p-4 border-2 border-gray-300 rounded-lg peer-checked:border-purple-600 peer-checked:bg-purple-50 transition hover:shadow-md">
                         <div class="flex items-center">
-                            <i class="fas fa-brain text-blue-600 text-2xl mr-3"></i>
+                            <i class="fas fa-vote-yea text-blue-600 text-2xl mr-3"></i>
                             <div>
-                                <p class="font-bold text-gray-800">Deep Learning</p>
-                                <p class="text-sm text-gray-600">Neural Network</p>
+                                <p class="font-bold text-gray-800">Voting</p>
+                                <p class="text-sm text-gray-600">LogisticRegression + SVC + XGBoost</p>
                             </div>
                         </div>
                     </div>
@@ -108,7 +125,66 @@
             </div>
         </div>
 
-        <!-- Form Section -->
+        <!-- Input Method Selection -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6 card-hover fade-in">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-keyboard text-indigo-600 mr-2"></i>Metode Input Data
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <label class="relative cursor-pointer">
+                    <input type="radio" name="inputMethod" value="manual" checked class="peer sr-only" onchange="toggleInputMethod()">
+                    <div class="p-4 border-2 border-gray-300 rounded-lg peer-checked:border-indigo-600 peer-checked:bg-indigo-50 transition hover:shadow-md">
+                        <div class="flex items-center">
+                            <i class="fas fa-edit text-indigo-600 text-2xl mr-3"></i>
+                            <div>
+                                <p class="font-bold text-gray-800">Input Manual</p>
+                                <p class="text-sm text-gray-600">Isi form satu per satu</p>
+                            </div>
+                        </div>
+                    </div>
+                </label>
+                <label class="relative cursor-pointer">
+                    <input type="radio" name="inputMethod" value="csv" class="peer sr-only" onchange="toggleInputMethod()">
+                    <div class="p-4 border-2 border-gray-300 rounded-lg peer-checked:border-indigo-600 peer-checked:bg-indigo-50 transition hover:shadow-md">
+                        <div class="flex items-center">
+                            <i class="fas fa-file-csv text-green-600 text-2xl mr-3"></i>
+                            <div>
+                                <p class="font-bold text-gray-800">Upload CSV</p>
+                                <p class="text-sm text-gray-600">Upload file untuk batch prediksi</p>
+                            </div>
+                        </div>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <!-- CSV Upload Section (Hidden by default) -->
+        <div id="csvUploadSection" class="hidden bg-white rounded-lg shadow-md p-6 mb-6 card-hover fade-in">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-cloud-upload-alt text-green-600 mr-2"></i>Upload File CSV
+            </h2>
+            <form id="csvForm" enctype="multipart/form-data">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Pilih File CSV</label>
+                    <input type="file" id="csvFile" name="file" accept=".csv" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                    <p class="text-xs text-gray-500 mt-2">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        Format kolom: Gaji, Tabungan Lama, Investasi, Pemasukan Lainnya, Tipe, Bahan Pokok, Protein & Gizi Tambahan, Tempat Tinggal, Sandang, Konsumsi Praktis, Barang & Jasa Sekunder, Pengeluaran Tidak Esensial, Pajak, Asuransi, Sosial & Budaya, Tabungan / Investasi
+                    </p>
+                </div>
+                <div class="flex gap-4">
+                    <button type="submit" class="bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 transition shadow-lg hover:shadow-xl">
+                        <i class="fas fa-upload mr-2"></i>Upload & Analisis CSV
+                    </button>
+                    <a href="/static/template_data_keuangan.csv" download class="bg-blue-500 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-600 transition shadow-lg hover:shadow-xl inline-flex items-center">
+                        <i class="fas fa-download mr-2"></i>Download Template CSV
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Form Section (Manual Input) -->
+        <div id="manualInputSection">
         <form id="financeForm" class="space-y-6">
             <!-- Section 1: Pemasukan -->
             <div class="bg-white rounded-lg shadow-md p-6 card-hover fade-in">
@@ -224,6 +300,8 @@
                 </button>
             </div>
         </form>
+        </div>
+        <!-- End Manual Input Section -->
 
         <!-- Results Section -->
         <div id="resultSection" class="hidden mt-8 bg-white rounded-lg shadow-md p-6 fade-in">
@@ -251,6 +329,134 @@
     </footer>
 
     <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuIcon = this.querySelector('i');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+        
+        // Toggle between manual input and CSV upload
+        function toggleInputMethod() {
+            const method = document.querySelector('input[name="inputMethod"]:checked').value;
+            const manualSection = document.getElementById('manualInputSection');
+            const csvSection = document.getElementById('csvUploadSection');
+            
+            if (method === 'csv') {
+                manualSection.style.display = 'none';
+                csvSection.classList.remove('hidden');
+            } else {
+                manualSection.style.display = 'block';
+                csvSection.classList.add('hidden');
+            }
+        }
+
+        // CSV Form Handler
+        document.getElementById('csvForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            const fileInput = document.getElementById('csvFile');
+            const selectedModel = document.querySelector('input[name="model"]:checked').value;
+            
+            if (!fileInput.files[0]) {
+                showError('Pilih file CSV terlebih dahulu');
+                return;
+            }
+            
+            formData.append('file', fileInput.files[0]);
+            formData.append('model', selectedModel);
+            
+            // Show loading spinner
+            document.getElementById('loadingSpinner').classList.remove('hidden');
+            
+            try {
+                const response = await fetch('/upload_csv', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                // Hide loading spinner
+                document.getElementById('loadingSpinner').classList.add('hidden');
+                
+                if (response.ok) {
+                    displayCSVResults(result);
+                } else {
+                    showError(result.error || 'Terjadi kesalahan saat memproses CSV');
+                }
+            } catch (error) {
+                document.getElementById('loadingSpinner').classList.add('hidden');
+                showError('Tidak dapat terhubung ke server. Pastikan API berjalan di localhost:8080');
+            }
+        });
+
+        function displayCSVResults(result) {
+            const resultHTML = `
+                <div class="border-2 border-indigo-300 bg-indigo-50 rounded-lg p-6">
+                    <div class="text-center mb-6">
+                        <i class="fas fa-check-circle text-6xl text-green-600"></i>
+                        <h3 class="text-3xl font-bold mt-4">Upload Berhasil!</h3>
+                        <p class="text-gray-600 mt-2">Total: ${result.total_rows} data | Model: ${result.model_used}</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 max-h-96 overflow-y-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-100 sticky top-0">
+                                <tr>
+                                    <th class="px-4 py-2 text-left">No</th>
+                                    <th class="px-4 py-2 text-left">Cluster</th>
+                                    <th class="px-4 py-2 text-left">Status Finansial</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${result.predictions.map(pred => {
+                                    let badgeColor = pred.cluster === 0 ? 'bg-red-100 text-red-800' : 
+                                                    pred.cluster === 1 ? 'bg-yellow-100 text-yellow-800' : 
+                                                    'bg-green-100 text-green-800';
+                                    return `
+                                        <tr class="border-b hover:bg-gray-50">
+                                            <td class="px-4 py-2">${pred.row}</td>
+                                            <td class="px-4 py-2">
+                                                <span class="px-3 py-1 rounded-full ${badgeColor} font-semibold">
+                                                    ${pred.cluster}
+                                                </span>
+                                            </td>
+                                            <td class="px-4 py-2">${pred.cluster_label}</td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                        <p class="text-sm text-gray-700">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            <strong>Ringkasan:</strong>
+                            ${result.predictions.filter(p => p.cluster === 0).length} Rawan Finansial | 
+                            ${result.predictions.filter(p => p.cluster === 1).length} Menengah Stabil | 
+                            ${result.predictions.filter(p => p.cluster === 2).length} Sehat Finansial
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('resultContent').innerHTML = resultHTML;
+            document.getElementById('resultSection').classList.remove('hidden');
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
         // Default values
         const defaultValues = {
             'Gaji': 5000000,
